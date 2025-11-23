@@ -25,7 +25,7 @@ async function clickAllCoupons() {
 
 		for (const button of buttons) {
 			forceClick(button);
-			await delay(150);
+			await delay(350);
 		}
 
 		console.log('Finished clicking all coupons');
@@ -41,7 +41,7 @@ function clickLoadMore() {
 	return false;
 }
 
-document.addEventListener('readystatechange', () => {
+function start() {
 	const mo = new MutationObserver(() => {
 		if (clickLoadMore()) return;
 		clickAllCoupons();
@@ -49,5 +49,10 @@ document.addEventListener('readystatechange', () => {
 
 	mo.observe(listContainer, { childList: true, subtree: true });
 	clickLoadMore();
-});
+}
 
+if (document.readyState === 'complete') {
+	start();
+} else {
+	document.addEventListener('readystatechange', start);
+}
